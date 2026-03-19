@@ -1,4 +1,4 @@
-# 个人博客网站开发方案（Spring Boot + MySQL + MyBatis + JWT）
+# 个人博客网站
 
 ## 1. 项目概述
 
@@ -165,79 +165,79 @@ blog-frontend/
 
 #### 用户表（user）
 
-| 字段名 | 数据类型 | 约束  | 描述  |
-| --- | --- | --- | --- |
-| `id` | `BIGINT` | `PRIMARY KEY, AUTO_INCREMENT` | 用户ID |
-| `username` | `VARCHAR(50)` | `NOT NULL, UNIQUE` | 用户名 |
-| `email` | `VARCHAR(100)` | `NOT NULL, UNIQUE` | 邮箱  |
-| `password` | `VARCHAR(100)` | `NOT NULL` | 密码（加密存储） |
-| `avatar` | `VARCHAR(255)` |     | 头像URL |
-| `bio` | `TEXT` |     | 个人简介 |
-| `role` | `VARCHAR(20)` | `NOT NULL, DEFAULT 'user'` | 角色（user/admin） |
-| `created_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP` | 创建时间 |
-| `updated_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间 |
+| 字段名          | 数据类型           | 约束                                                                | 描述             |
+| ------------ | -------------- | ----------------------------------------------------------------- | -------------- |
+| `id`         | `BIGINT`       | `PRIMARY KEY, AUTO_INCREMENT`                                     | 用户ID           |
+| `username`   | `VARCHAR(50)`  | `NOT NULL, UNIQUE`                                                | 用户名            |
+| `email`      | `VARCHAR(100)` | `NOT NULL, UNIQUE`                                                | 邮箱             |
+| `password`   | `VARCHAR(100)` | `NOT NULL`                                                        | 密码（加密存储）       |
+| `avatar`     | `VARCHAR(255)` |                                                                   | 头像URL          |
+| `bio`        | `TEXT`         |                                                                   | 个人简介           |
+| `role`       | `VARCHAR(20)`  | `NOT NULL, DEFAULT 'user'`                                        | 角色（user/admin） |
+| `created_at` | `DATETIME`     | `NOT NULL, DEFAULT CURRENT_TIMESTAMP`                             | 创建时间           |
+| `updated_at` | `DATETIME`     | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间           |
 
 #### 文章表（article）
 
-| 字段名 | 数据类型 | 约束  | 描述  |
-| --- | --- | --- | --- |
-| `id` | `BIGINT` | `PRIMARY KEY, AUTO_INCREMENT` | 文章ID |
-| `title` | `VARCHAR(200)` | `NOT NULL` | 标题  |
-| `content` | `TEXT` | `NOT NULL` | 内容  |
-| `excerpt` | `VARCHAR(500)` |     | 摘要  |
-| `cover` | `VARCHAR(255)` |     | 封面图片URL |
-| `author_id` | `BIGINT` | `NOT NULL, FOREIGN KEY (user.id)` | 作者ID |
-| `category_id` | `BIGINT` | `FOREIGN KEY (category.id)` | 分类ID |
-| `status` | `VARCHAR(20)` | `NOT NULL, DEFAULT 'draft'` | 状态（draft/published） |
-| `view_count` | `INT` | `NOT NULL, DEFAULT 0` | 浏览量 |
-| `like_count` | `INT` | `NOT NULL, DEFAULT 0` | 点赞数 |
-| `comment_count` | `INT` | `NOT NULL, DEFAULT 0` | 评论数 |
-| `is_top` | `TINYINT` | `NOT NULL, DEFAULT 0` | 是否置顶（0/1） |
-| `created_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP` | 创建时间 |
-| `updated_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间 |
+| 字段名             | 数据类型           | 约束                                                                | 描述                  |
+| --------------- | -------------- | ----------------------------------------------------------------- | ------------------- |
+| `id`            | `BIGINT`       | `PRIMARY KEY, AUTO_INCREMENT`                                     | 文章ID                |
+| `title`         | `VARCHAR(200)` | `NOT NULL`                                                        | 标题                  |
+| `content`       | `TEXT`         | `NOT NULL`                                                        | 内容                  |
+| `excerpt`       | `VARCHAR(500)` |                                                                   | 摘要                  |
+| `cover`         | `VARCHAR(255)` |                                                                   | 封面图片URL             |
+| `author_id`     | `BIGINT`       | `NOT NULL, FOREIGN KEY (user.id)`                                 | 作者ID                |
+| `category_id`   | `BIGINT`       | `FOREIGN KEY (category.id)`                                       | 分类ID                |
+| `status`        | `VARCHAR(20)`  | `NOT NULL, DEFAULT 'draft'`                                       | 状态（draft/published） |
+| `view_count`    | `INT`          | `NOT NULL, DEFAULT 0`                                             | 浏览量                 |
+| `like_count`    | `INT`          | `NOT NULL, DEFAULT 0`                                             | 点赞数                 |
+| `comment_count` | `INT`          | `NOT NULL, DEFAULT 0`                                             | 评论数                 |
+| `is_top`        | `TINYINT`      | `NOT NULL, DEFAULT 0`                                             | 是否置顶（0/1）           |
+| `created_at`    | `DATETIME`     | `NOT NULL, DEFAULT CURRENT_TIMESTAMP`                             | 创建时间                |
+| `updated_at`    | `DATETIME`     | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间                |
 
 #### 分类表（category）
 
-| 字段名 | 数据类型 | 约束  | 描述  |
-| --- | --- | --- | --- |
-| `id` | `BIGINT` | `PRIMARY KEY, AUTO_INCREMENT` | 分类ID |
-| `name` | `VARCHAR(50)` | `NOT NULL, UNIQUE` | 分类名称 |
-| `slug` | `VARCHAR(100)` | `NOT NULL, UNIQUE` | 分类别名（URL友好） |
-| `description` | `VARCHAR(255)` |     | 分类描述 |
-| `article_count` | `INT` | `NOT NULL, DEFAULT 0` | 文章数量 |
-| `created_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP` | 创建时间 |
-| `updated_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间 |
+| 字段名             | 数据类型           | 约束                                                                | 描述          |
+| --------------- | -------------- | ----------------------------------------------------------------- | ----------- |
+| `id`            | `BIGINT`       | `PRIMARY KEY, AUTO_INCREMENT`                                     | 分类ID        |
+| `name`          | `VARCHAR(50)`  | `NOT NULL, UNIQUE`                                                | 分类名称        |
+| `slug`          | `VARCHAR(100)` | `NOT NULL, UNIQUE`                                                | 分类别名（URL友好） |
+| `description`   | `VARCHAR(255)` |                                                                   | 分类描述        |
+| `article_count` | `INT`          | `NOT NULL, DEFAULT 0`                                             | 文章数量        |
+| `created_at`    | `DATETIME`     | `NOT NULL, DEFAULT CURRENT_TIMESTAMP`                             | 创建时间        |
+| `updated_at`    | `DATETIME`     | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间        |
 
 #### 标签表（tag）
 
-| 字段名 | 数据类型 | 约束  | 描述  |
-| --- | --- | --- | --- |
-| `id` | `BIGINT` | `PRIMARY KEY, AUTO_INCREMENT` | 标签ID |
-| `name` | `VARCHAR(50)` | `NOT NULL, UNIQUE` | 标签名称 |
-| `slug` | `VARCHAR(100)` | `NOT NULL, UNIQUE` | 标签别名（URL友好） |
-| `article_count` | `INT` | `NOT NULL, DEFAULT 0` | 文章数量 |
-| `created_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP` | 创建时间 |
-| `updated_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间 |
+| 字段名             | 数据类型           | 约束                                                                | 描述          |
+| --------------- | -------------- | ----------------------------------------------------------------- | ----------- |
+| `id`            | `BIGINT`       | `PRIMARY KEY, AUTO_INCREMENT`                                     | 标签ID        |
+| `name`          | `VARCHAR(50)`  | `NOT NULL, UNIQUE`                                                | 标签名称        |
+| `slug`          | `VARCHAR(100)` | `NOT NULL, UNIQUE`                                                | 标签别名（URL友好） |
+| `article_count` | `INT`          | `NOT NULL, DEFAULT 0`                                             | 文章数量        |
+| `created_at`    | `DATETIME`     | `NOT NULL, DEFAULT CURRENT_TIMESTAMP`                             | 创建时间        |
+| `updated_at`    | `DATETIME`     | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间        |
 
 #### 文章标签关联表（article_tag）
 
-| 字段名 | 数据类型 | 约束  | 描述  |
-| --- | --- | --- | --- |
+| 字段名          | 数据类型     | 约束                                      | 描述   |
+| ------------ | -------- | --------------------------------------- | ---- |
 | `article_id` | `BIGINT` | `PRIMARY KEY, FOREIGN KEY (article.id)` | 文章ID |
-| `tag_id` | `BIGINT` | `PRIMARY KEY, FOREIGN KEY (tag.id)` | 标签ID |
+| `tag_id`     | `BIGINT` | `PRIMARY KEY, FOREIGN KEY (tag.id)`     | 标签ID |
 
 #### 评论表（comment）
 
-| 字段名 | 数据类型 | 约束  | 描述  |
-| --- | --- | --- | --- |
-| `id` | `BIGINT` | `PRIMARY KEY, AUTO_INCREMENT` | 评论ID |
-| `article_id` | `BIGINT` | `NOT NULL, FOREIGN KEY (article.id)` | 文章ID |
-| `user_id` | `BIGINT` | `NOT NULL, FOREIGN KEY (user.id)` | 用户ID |
-| `content` | `TEXT` | `NOT NULL` | 评论内容 |
-| `parent_id` | `BIGINT` | `FOREIGN KEY (comment.id)` | 父评论ID（用于回复） |
-| `status` | `VARCHAR(20)` | `NOT NULL, DEFAULT 'approved'` | 状态（approved/pending） |
-| `created_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP` | 创建时间 |
-| `updated_at` | `DATETIME` | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间 |
+| 字段名          | 数据类型          | 约束                                                                | 描述                   |
+| ------------ | ------------- | ----------------------------------------------------------------- | -------------------- |
+| `id`         | `BIGINT`      | `PRIMARY KEY, AUTO_INCREMENT`                                     | 评论ID                 |
+| `article_id` | `BIGINT`      | `NOT NULL, FOREIGN KEY (article.id)`                              | 文章ID                 |
+| `user_id`    | `BIGINT`      | `NOT NULL, FOREIGN KEY (user.id)`                                 | 用户ID                 |
+| `content`    | `TEXT`        | `NOT NULL`                                                        | 评论内容                 |
+| `parent_id`  | `BIGINT`      | `FOREIGN KEY (comment.id)`                                        | 父评论ID（用于回复）          |
+| `status`     | `VARCHAR(20)` | `NOT NULL, DEFAULT 'approved'`                                    | 状态（approved/pending） |
+| `created_at` | `DATETIME`    | `NOT NULL, DEFAULT CURRENT_TIMESTAMP`                             | 创建时间                 |
+| `updated_at` | `DATETIME`    | `NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | 更新时间                 |
 
 ## 5. 核心功能实现方案
 
@@ -248,12 +248,14 @@ blog-frontend/
   - 使用富文本编辑器（如CKEditor、TinyMCE）或Markdown编辑器（如Editor.md）
   - 图片上传使用Spring Boot的MultipartFile处理，存储到本地或对象存储服务
   - 文章内容支持HTML和Markdown格式，后端存储原始格式，前端根据需要渲染
+
 - **文章管理**：
   
   - 使用MyBatis-Plus实现CRUD操作
   - 支持按状态、分类、时间等筛选
   - 实现文章置顶、草稿保存功能
   - 使用AOP或拦截器实现文章浏览量统计
+
 - **分类与标签**：
   
   - 实现分类和标签的CRUD操作
@@ -268,11 +270,13 @@ blog-frontend/
   - 登录时生成token，存储在前端localStorage中
   - 实现token刷新机制，避免频繁登录
   - 使用Spring Security的过滤器验证token
+
 - **权限控制**：
   
   - 基于角色的权限控制（RBAC）
   - 使用Spring Security的注解（如@PreAuthorize）实现方法级权限控制
   - 区分普通用户和管理员权限
+
 - **密码安全**：
   
   - 使用BCryptPasswordEncoder对密码进行加密存储
@@ -285,16 +289,19 @@ blog-frontend/
   
   - 使用媒体查询和Flexbox/Grid实现不同设备的适配
   - 移动端优先设计，确保在手机、平板、电脑上都有良好的显示效果
+
 - **路由设计**：
   
   - 使用Vue Router实现单页应用路由
   - 支持嵌套路由和动态路由
   - 实现路由守卫，处理未登录访问需要权限的页面
+
 - **状态管理**：
   
   - 使用Pinia管理全局状态
   - 存储用户信息、文章列表、分类标签等数据
   - 实现状态持久化，避免页面刷新后数据丢失
+
 - **性能优化**：
   
   - 实现图片懒加载
@@ -309,15 +316,18 @@ blog-frontend/
   - 实现嵌套评论和回复功能
   - 支持评论审核（管理员）
   - 使用WebSocket实现评论实时更新（可选）
+
 - **点赞功能**：
   
   - 实现文章点赞和取消点赞
   - 使用Redis存储点赞记录，提高性能
   - 异步更新数据库中的点赞数
+
 - **分享功能**：
   
   - 集成社交媒体分享SDK（如微信、微博、QQ）
   - 生成带有文章信息的分享卡片
+
 - **搜索功能**：
   
   - 使用MySQL的全文搜索功能
@@ -331,16 +341,19 @@ blog-frontend/
   - 使用ECharts实现数据可视化
   - 展示文章数量、浏览量、评论数等统计数据
   - 显示最近发布的文章和待审核的评论
+
 - **内容管理**：
   
   - 实现文章、分类、标签的CRUD操作
   - 支持批量操作（如批量删除、批量修改状态）
   - 提供文章编辑器，支持富文本和Markdown
+
 - **用户管理**：
   
   - 实现用户信息管理
   - 支持用户角色修改
   - 显示用户注册时间、最后登录时间等信息
+
 - **系统设置**：
   
   - 实现网站基本信息设置（如网站名称、描述、Logo）
@@ -352,57 +365,63 @@ blog-frontend/
 ### 6.1 开发环境搭建
 
 1. **后端环境**：
-  
-  - 安装JDK 17+
-  - 安装Maven 3.8+
-  - 安装MySQL 8.0+
-  - 安装IntelliJ IDEA（推荐）
+   
+   - 安装JDK 17+
+   - 安装Maven 3.8+
+   - 安装MySQL 8.0+
+   - 安装IntelliJ IDEA（推荐）
+
 2. **前端环境**：
-  
-  - 安装Node.js 16+
-  - 安装npm或yarn
-  - 安装VS Code（推荐）
+   
+   - 安装Node.js 16+
+   - 安装npm或yarn
+   - 安装VS Code（推荐）
+
 3. **数据库配置**：
-  
-  - 创建数据库：`CREATE DATABASE blog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`
-  - 创建数据库用户并授权
-  - 导入初始化SQL脚本（创建表结构）
+   
+   - 创建数据库：`CREATE DATABASE blog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`
+   - 创建数据库用户并授权
+   - 导入初始化SQL脚本（创建表结构）
 
 ### 6.2 开发阶段划分
 
 1. **需求分析与设计阶段**（1-2天）
-  
-  - 确定具体功能需求
-  - 设计数据库模型
-  - 设计界面原型
+   
+   - 确定具体功能需求
+   - 设计数据库模型
+   - 设计界面原型
+
 2. **后端开发阶段**（5-7天）
-  
-  - 搭建Spring Boot项目
-  - 配置MyBatis-Plus和MySQL
-  - 实现实体类和Mapper
-  - 开发Service层和Controller层
-  - 实现认证和权限控制
-  - 编写单元测试
+   
+   - 搭建Spring Boot项目
+   - 配置MyBatis-Plus和MySQL
+   - 实现实体类和Mapper
+   - 开发Service层和Controller层
+   - 实现认证和权限控制
+   - 编写单元测试
+
 3. **前端开发阶段**（5-7天）
-  
-  - 搭建Vue 3 + Vite项目
-  - 配置路由和状态管理
-  - 实现页面组件
-  - 开发API调用
-  - 实现响应式设计
-  - 集成第三方库（如编辑器、图表库）
+   
+   - 搭建Vue 3 + Vite项目
+   - 配置路由和状态管理
+   - 实现页面组件
+   - 开发API调用
+   - 实现响应式设计
+   - 集成第三方库（如编辑器、图表库）
+
 4. **联调测试阶段**（2-3天）
-  
-  - 前后端联调
-  - 功能测试
-  - 性能测试
-  - 兼容性测试
+   
+   - 前后端联调
+   - 功能测试
+   - 性能测试
+   - 兼容性测试
+
 5. **部署上线阶段**（1-2天）
-  
-  - 构建生产版本
-  - 配置服务器
-  - 部署应用
-  - 域名解析和SSL配置
+   
+   - 构建生产版本
+   - 配置服务器
+   - 部署应用
+   - 域名解析和SSL配置
 
 ### 6.3 测试策略
 
@@ -411,11 +430,13 @@ blog-frontend/
   - 使用JUnit 5和Spring Boot Test
   - 测试Service层和工具类
   - 覆盖率目标：80%以上
+
 - **集成测试**：
   
   - 测试API接口
   - 测试数据库操作
   - 测试认证和权限控制
+
 - **端到端测试**：
   
   - 使用Cypress或Selenium
@@ -436,80 +457,82 @@ blog-frontend/
 ### 7.2 部署步骤
 
 1. **服务器初始化**：
-  
-  - 更新系统包：`apt update && apt upgrade`
-  - 安装Java：`apt install openjdk-17-jdk`
-  - 安装MySQL：`apt install mysql-server`
-  - 安装Nginx：`apt install nginx`
-  - 配置防火墙：`ufw allow 80/tcp && ufw allow 443/tcp`
+   
+   - 更新系统包：`apt update && apt upgrade`
+   - 安装Java：`apt install openjdk-17-jdk`
+   - 安装MySQL：`apt install mysql-server`
+   - 安装Nginx：`apt install nginx`
+   - 配置防火墙：`ufw allow 80/tcp && ufw allow 443/tcp`
+
 2. **数据库配置**：
-  
-  - 启动MySQL服务：`systemctl start mysql`
-  - 配置MySQL：`mysql_secure_installation`
-  - 创建数据库和用户
-  - 导入初始化SQL脚本
+   
+   - 启动MySQL服务：`systemctl start mysql`
+   - 配置MySQL：`mysql_secure_installation`
+   - 创建数据库和用户
+   - 导入初始化SQL脚本
+
 3. **后端部署**：
-  
-  - 构建Spring Boot项目：`mvn clean package -DskipTests`
-    
-  - 将jar包上传到服务器
-    
-  - 创建启动脚本：
-    
-    ```bash
-    #!/bin/bash
-    java -jar blog-backend.jar --spring.profiles.active=prod
-    ```
-    
-  - 使用systemd管理服务：
-    
-    ```
-    [Unit]
-    Description=Blog Backend Service
-    After=syslog.target
-    
-    [Service]
-    User=ubuntu
-    ExecStart=/path/to/start.sh
-    SuccessExitStatus=143
-    
-    [Install]
-    WantedBy=multi-user.target
-    ```
-    
+   
+   - 构建Spring Boot项目：`mvn clean package -DskipTests`
+   
+   - 将jar包上传到服务器
+   
+   - 创建启动脚本：
+     
+     ```bash
+     #!/bin/bash
+     java -jar blog-backend.jar --spring.profiles.active=prod
+     ```
+   
+   - 使用systemd管理服务：
+     
+     ```
+     [Unit]
+     Description=Blog Backend Service
+     After=syslog.target
+     
+     [Service]
+     User=ubuntu
+     ExecStart=/path/to/start.sh
+     SuccessExitStatus=143
+     
+     [Install]
+     WantedBy=multi-user.target
+     ```
+
 4. **前端部署**：
-  
-  - 构建Vue项目：`npm run build`
-    
-  - 将dist目录上传到服务器
-    
-  - 配置Nginx：
-    
-    ```nginx
-    server {
+   
+   - 构建Vue项目：`npm run build`
+   
+   - 将dist目录上传到服务器
+   
+   - 配置Nginx：
+     
+     ```nginx
+     server {
         listen 80;
         server_name example.com;
-    
+     
         location / {
             root /path/to/blog-frontend/dist;
             index index.html;
             try_files $uri $uri/ /index.html;
         }
-    
+     
         location /api {
             proxy_pass http://localhost:8080;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
-    }
-    ```
-    
+     }
+     ```
+
 5. **SSL配置**：
-  
-  - 安装Certbot：`apt install certbot python3-certbot-nginx`
-  - 获取SSL证书：`certbot --nginx -d example.com`
-  - 配置自动续期：`certbot renew --dry-run`
+   
+   - 安装Certbot：`apt install certbot python3-certbot-nginx`
+   - 获取SSL证书：`certbot --nginx -d example.com`
+   - 配置自动续期：`certbot renew --dry-run`
 
 ### 7.3 运维方案
 
@@ -518,16 +541,19 @@ blog-frontend/
   - 使用Spring Boot的日志配置，将日志输出到指定目录
   - 配置日志轮转，避免日志文件过大
   - 使用ELK Stack（Elasticsearch、Logstash、Kibana）集中管理日志（可选）
+
 - **监控告警**：
   
   - 使用Spring Boot Actuator暴露应用指标
   - 集成Prometheus和Grafana监控系统（可选）
   - 设置CPU、内存、磁盘使用率告警
+
 - **备份策略**：
   
   - 定期备份MySQL数据库（使用mysqldump）
   - 备份上传的图片和文件
   - 备份配置文件和代码
+
 - **安全更新**：
   
   - 定期更新系统包和依赖库
